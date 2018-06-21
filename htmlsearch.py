@@ -11,15 +11,6 @@ from tkinter import *
 import urllib.request
 import re
 
-# TODO - add custom search
-# TODO - add search for embedded items
-# TODO - what about elements with more than just <p> ?
-#      - improve regular expression to get more desirable results??
-
-#TODO - fix left/right buttons 
-#TODO - make gui prettier
-#TODO - add instructions - make readme.md
-
 class Window(Frame):
     
     def __init__(self, master=None):
@@ -47,7 +38,7 @@ class Window(Frame):
     def init_window(
         self, searchLabel, searchText, searchButton, resultMessage,
         leftButton, rightButton, v):
-        self.master.title("GUI")
+        self.master.title("html parser")
 
         self.pack(fill=BOTH, expand=1)
 
@@ -74,7 +65,9 @@ class Window(Frame):
         self.searchButton.place(x=385, y=75)
         self.resultMessage.place(x=85, y=110, height=300, width=665)
         self.leftButton.place(x= 55, y= 225, height=25, width=25)
+        self.leftButton.config(state=DISABLED)
         self.rightButton.place(x= 755, y= 225, height=25, width=25)
+        self.rightButton.config(state=DISABLED)
 
         menu = Menu(self.master)
         self.master.config(menu=menu)
@@ -98,6 +91,8 @@ class Window(Frame):
             resp = urllib.request.urlopen(req)
             respData = resp.read()
 
+            #search for the selected element using regular expressions
+
             regDict = { 
                 "p":r'<p>(.*?)</p>',
                 "i":r'<i>(.*?)</i>',
@@ -109,44 +104,42 @@ class Window(Frame):
 
             curReg = regDict[self.v.get()]
 
-            #print(curReg)
-
             self.results = re.findall(curReg,str(respData))
+
+            #handle results
 
             if(len(self.results) > 0):
                 self.resultMessage.configure(text=self.results[0])
                 self.validResults = True
+                if(len(self.results) > 1):
+                    self.rightButton.config(state=ACTIVE)
             else:
                 self.resultMessage.configure(text="No results found")
                 self.validResults = False
-
-
-            #for eachP in paragraphs:
-               # print(eachP)
             
         except Exception as e:
+            #handle exceptions as bad url 
             self.resultMessage.configure(text="Invalid URL")
-            #print(str(e))
 
     def leftClicked(self):
+        #handle button press event and dispaly of results for left button
         if(self.validResults):
             if(self.currentIndex - 1 >= 0):
-                self.leftButton.config(state=ACTIVE)
                 self.currentIndex = self.currentIndex - 1
                 self.resultMessage.configure(text=self.results[self.currentIndex])
+                self.rightButton.config(state=ACTIVE)
             else:
                 self.leftButton.config(state=DISABLED)
-        print(self.currentIndex)
 
     def rightClicked(self):
+        #handle button press event and dispaly of results for right button
         if(self.validResults):
             if(self.currentIndex + 1 < len(self.results)):
-                self.rightButton.config(state=ACTIVE)
                 self.currentIndex = self.currentIndex + 1
                 self.resultMessage.configure(text=self.results[self.currentIndex])
+                self.leftButton.config(state=ACTIVE)
             else:
                 self.rightButton.config(state=DISABLED)
-        print(self.currentIndex)
         
 #Tkinter stuff to display window
 root = Tk()
