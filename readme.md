@@ -1,6 +1,6 @@
 # HTML Search
 
-This program is a GUI for a very basic html parser. The user can select an html element to search for and input a website url, and the results are displayed. The tkinter, urlib, and re libraries are implemented for learning purposes.
+This program is a GUI for a very basic html parser, using Python, limited to elements containing text. The user can select an html element to search for and input a website url, and the results are displayed. The tkinter, ~~urlib~~ requests, and ~~re~~ beautifulsoup libraries are implemented for learning purposes. 
 
 ## Instructions
 Upon launch, the GUI is in a default state. The user can select from a list of html elements using buttons on the left edge of the window. The user can also input an URL in the designated region. 
@@ -17,11 +17,16 @@ The user can exit the program using either the "X" window button or choosing Fil
 
 ## Future developement
 
-* Use requests library instead of urlib
-* Use Beutifulsoup library instead of re
+* Use requests library instead of urlib (in progress)
+* Use Beutifulsoup library instead of re (in progress)
 * Improve the regular expression used to reduce clutter
 * Add a search for custom search where the user can input an html element to search for
 * Add the ability to search for embedded elements, where the user selects the elements and the order to search for them
+
+## Built With
+
+* [Beautifulsoup](https://www.crummy.com/software/BeautifulSoup/)
+* [Requests](http://docs.python-requests.org/en/master/)
 
 ## Authors
 

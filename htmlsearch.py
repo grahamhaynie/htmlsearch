@@ -8,8 +8,9 @@ Created by Graham Haynie
 """
 
 from tkinter import *
-import urllib.request
-import re
+#import urllib.request
+#import re
+import requests, bs4
 
 class Window(Frame):
     
@@ -87,6 +88,7 @@ class Window(Frame):
             #end-lc = read until end, -1c gets rid of trailing newline
             url = self.searchText.get("1.0", 'end-1c')
 
+            """
             req = urllib.request.Request(url)
             resp = urllib.request.urlopen(req)
             respData = resp.read()
@@ -105,6 +107,10 @@ class Window(Frame):
             curReg = regDict[self.v.get()]
 
             self.results = re.findall(curReg,str(respData))
+            """
+
+            res = requests.get(url)
+            res.raise_for_status() #will end try block if fails
 
             #handle results
 
