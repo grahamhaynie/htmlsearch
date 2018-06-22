@@ -1,4 +1,4 @@
-# Project Title
+# HTML Search
 
 This program is a GUI for a very basic html parser. The user can select an html element to search for and input a website url, and the results are displayed. The tkinter, urlib, and re libraries are implemented for learning purposes.
 
@@ -17,6 +17,8 @@ The user can exit the program using either the "X" window button or choosing Fil
 
 ## Future developement
 
+* Use requests library instead of urlib
+* Use Beutifulsoup library instead of re
 * Improve the regular expression used to reduce clutter
 * Add a search for custom search where the user can input an html element to search for
 * Add the ability to search for embedded elements, where the user selects the elements and the order to search for them
