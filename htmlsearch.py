@@ -88,34 +88,18 @@ class Window(Frame):
             #end-lc = read until end, -1c gets rid of trailing newline
             url = self.searchText.get("1.0", 'end-1c')
 
-            """
-            req = urllib.request.Request(url)
-            resp = urllib.request.urlopen(req)
-            respData = resp.read()
-
-            #search for the selected element using regular expressions
-
-            regDict = { 
-                "p":r'<p>(.*?)</p>',
-                "i":r'<i>(.*?)</i>',
-                "u":r'<u>(.*?)</u>',
-                "h1":r'<h1>(.*?)</h1>',
-                "div":r'<div>(.*?)</div>',
-                "title":r'<title>(.*?)</title>'
-            }
-
-            curReg = regDict[self.v.get()]
-
-            self.results = re.findall(curReg,str(respData))
-            """
-
+            #user requests to get data
             res = requests.get(url)
             res.raise_for_status() #will end try block if fails
 
-            #handle results
+            #parse with beautifulsoup
+            resSoup = bs4.BeautifulSoup(res.text, "html.parser")
 
+            self.results = resSoup.select(self.v.get())
+
+            #handle results
             if(len(self.results) > 0):
-                self.resultMessage.configure(text=self.results[0])
+                self.resultMessage.configure(text=self.results[0].getText())
                 self.validResults = True
                 if(len(self.results) > 1):
                     self.rightButton.config(state=ACTIVE)
@@ -132,7 +116,7 @@ class Window(Frame):
         if(self.validResults):
             if(self.currentIndex - 1 >= 0):
                 self.currentIndex = self.currentIndex - 1
-                self.resultMessage.configure(text=self.results[self.currentIndex])
+                self.resultMessage.configure(text=self.results[self.currentIndex].getText())
                 self.rightButton.config(state=ACTIVE)
             else:
                 self.leftButton.config(state=DISABLED)
@@ -142,7 +126,7 @@ class Window(Frame):
         if(self.validResults):
             if(self.currentIndex + 1 < len(self.results)):
                 self.currentIndex = self.currentIndex + 1
-                self.resultMessage.configure(text=self.results[self.currentIndex])
+                self.resultMessage.configure(text=self.results[self.currentIndex].getText())
                 self.leftButton.config(state=ACTIVE)
             else:
                 self.rightButton.config(state=DISABLED)

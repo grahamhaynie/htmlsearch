@@ -17,9 +17,7 @@ The user can exit the program using either the "X" window button or choosing Fil
 
 ## Future developement
 
-* Use requests library instead of urlib (in progress)
-* Use Beutifulsoup library instead of re (in progress)
-* Improve the regular expression used to reduce clutter
+* Improve loading time or add an indicator that the application is loading
 * Add a search for custom search where the user can input an html element to search for
 * Add the ability to search for embedded elements, where the user selects the elements and the order to search for them
 
