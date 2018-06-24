@@ -93,9 +93,11 @@ class Window(Frame):
             res.raise_for_status() #will end try block if fails
 
             #parse with beautifulsoup
-            resSoup = bs4.BeautifulSoup(res.text, "html.parser")
+            #user lxml instead of html.parser for speed reasons, has to be installed externally
+            resSoup = bs4.BeautifulSoup(res.text, "lxml")
 
-            self.results = resSoup.select(self.v.get())
+            #works same as .select()
+            self.results = resSoup.find_all(self.v.get())
 
             #handle results
             if(len(self.results) > 0):
